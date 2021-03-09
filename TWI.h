@@ -83,10 +83,16 @@ uint8_t read_TWI(TWI_t *twi, uint8_t *data);
 //send 8bits to the address 
 uint8_t send_8bit_TWI(TWI_t *twi, uint8_t addr, uint8_t data);
 
-//
+//twi is the TWI port
+//addr is the address of the TWI device were you want to write to a register
+//data is the data that you want to write in the register
+//reg is the register to which you want to write the data
 uint8_t write_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t data, uint8_t reg);
 
-//
+//twi is the TWI port
+//addr is the address of the TWI device were you want to read a register
+//data is the variable where you want to store the data 
+//reg is the register you want to read data from
 uint8_t read_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t *data, uint8_t reg);
 
 
