@@ -63,6 +63,10 @@ uint8_t bus_state(TWI_t *twi){
 	return ret;
 }
 
+void set_bus_state_TWI(TWI_t *twi, uint8_t state){
+	twi->MASTER.STATUS = state;
+}
+
 uint8_t start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){
 	if(bus_state(twi) != BUS_NOT_IN_USE) return bus_state(twi);
 	

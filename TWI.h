@@ -27,6 +27,11 @@
 #define	OWNER_OF_BUS		2
 #define	BUS_IN_USE			3
 
+#define	UNKNOWN_BUS_STATE_GR	TWI_MASTER_BUSSTATE_UNKNOWN_gc
+#define	BUS_NOT_IN_USE_GR		TWI_MASTER_BUSSTATE_IDLE_gc
+#define	OWNER_OF_BUS_GR			TWI_MASTER_BUSSTATE_OWNER_gc
+#define	BUS_IN_USE_GR			TWI_MASTER_BUSSTATE_BUSY_gc
+
 #define INVALID_RW	4
 
 #define WRITE 0 
@@ -34,9 +39,9 @@
 
 #define NACK 0
 #define ACK	 1
-#define DATA_NOT_SEND 2
+#define DATA_NOT_SEND 4
 #define DATA_NOT_RECEIVED 3
-#define TWI_STATUS_OK 1
+#define TWI_STATUS_OK 5
 
 //inline function to calculate the baud value
 #define TWI_BAUD(F_SYS, F_TWI)   ((F_SYS / (2 * F_TWI)) - 5)
@@ -62,6 +67,9 @@ void set_acknowledge(TWI_t *twi, uint8_t ack);
 
 //returns in what state the bus is
 uint8_t bus_state(TWI_t *twi);  
+
+//function used for setting the bus state
+void set_bus_state_TWI(TWI_t *twi, uint8_t state);
 
 //issues an start condition and send an address
 //returns 1 if an acknowledge is received
