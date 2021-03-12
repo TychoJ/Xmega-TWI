@@ -59,24 +59,50 @@ void set_acknowledge(TWI_t *twi, uint8_t ack){
 
 uint8_t bus_state(TWI_t *twi){
 	uint8_t ret = twi->MASTER.STATUS;
-	ret = (000000 << 2);
-	return ret;
+	//ret = (000000 << 2);
+	if( (ret & TWI_MASTER_BUSSTATE_gm) == TWI_MASTER_BUSSTATE_UNKNOWN_gc ) return UNKNOWN_BUS_STATE;
+	if( (ret & TWI_MASTER_BUSSTATE_gm) != TWI_MASTER_BUSSTATE_IDLE_gc ) return BUS_NOT_IN_USE;
+	if( (ret & TWI_MASTER_BUSSTATE_gm) != TWI_MASTER_BUSSTATE_IDLE_gc ) return OWNER_OF_BUS;
+	if( (ret & TWI_MASTER_BUSSTATE_gm) != TWI_MASTER_BUSSTATE_IDLE_gc ) return BUS_IN_USE;
+	return 1;
 }
 
 void set_bus_state_TWI(TWI_t *twi, uint8_t state){
 	twi->MASTER.STATUS = state;
 }
 
+uint8_t wait_till_send(TWI_t *twi, uint8_t rw){
+	uint8_t send_suc = 0;
+	uint16_t time_passed = 0;
+	
+	while ( !send_suc){
+		
+		if(twi->MASTER.STATUS & (TWI_MASTER_WIF_bm << rw)) send_suc = 1;
+		
+		if(time_passed > 1000) return DATA_NOT_SEND;
+		_delay_us(1);		
+		time_passed++;
+	}
+	return TWI_STATUS_OK;
+}
+
 uint8_t start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){
+	
 	if(bus_state(twi) != BUS_NOT_IN_USE) return bus_state(twi);
 	
 	if( !( (rw == READ) || (rw == WRITE) ) ) return INVALID_RW;
-	twi->MASTER.ADDR = (addr << 1) | rw;
+	
+	twi->MASTER.ADDR = (addr << 1) | rw;	//send slave address
+	if(wait_till_send(twi, rw) == DATA_NOT_SEND) return DATA_NOT_SEND;
+	//while( ! (twi->MASTER.STATUS & (TWI_MASTER_WIF_bm << rw)) );               // wait until sent
 	
 	//when RXACK is 0 an ACK has been received
-	if(twi->MASTER.STATUS & TWI_MASTER_RXACK_bm) return NACK;
+	if(twi->MASTER.STATUS & TWI_MASTER_RXACK_bm){
+		stop_TWI(twi);
+		return NACK;
+		} 
 	
-	return TWI_STATUS_OK;
+	return ACK;
 }
 
 uint8_t repeated_start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){

@@ -71,6 +71,8 @@ uint8_t bus_state(TWI_t *twi);
 //function used for setting the bus state
 void set_bus_state_TWI(TWI_t *twi, uint8_t state);
 
+uint8_t wait_till_send(TWI_t *twi, uint8_t rw);
+
 //issues an start condition and send an address
 //returns 1 if an acknowledge is received
 //returns 0 if a notacknowledge is received
