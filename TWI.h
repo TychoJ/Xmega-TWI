@@ -39,8 +39,8 @@
 
 #define NACK 0
 #define ACK	 1
-#define DATA_NOT_SEND 4
-#define DATA_NOT_RECEIVED 3
+#define DATA_NOT_SEND 10
+#define DATA_NOT_RECEIVED 7
 #define TWI_STATUS_OK 5
 
 //inline function to calculate the baud value
@@ -72,6 +72,8 @@ uint8_t bus_state(TWI_t *twi);
 void set_bus_state_TWI(TWI_t *twi, uint8_t state);
 
 uint8_t wait_till_send(TWI_t *twi, uint8_t rw);
+
+uint8_t wait_till_received(TWI_t *twi, uint8_t rw);
 
 //issues an start condition and send an address
 //returns 1 if an acknowledge is received
