@@ -139,10 +139,11 @@ uint8_t send_TWI(TWI_t *twi, uint8_t data){
 	return ACK;
 }
 
-uint8_t read_TWI(TWI_t *twi, uint8_t *data){
+uint8_t read_TWI(TWI_t *twi, uint8_t *data, uint8_t go_on){
 	if(wait_till_received(twi, READ) == DATA_NOT_RECEIVED) return DATA_NOT_RECEIVED;
 	(*data) = twi->MASTER.DATA;
-	
+	 twi->MASTER.CTRLC = ((go_on == ACK) ? TWI_MASTER_CMD_RECVTRANS_gc :        // send ack (go on) or
+	 TWI_MASTER_ACKACT_bm|TWI_MASTER_CMD_STOP_gc); //     nack (and stop)
 	return TWI_STATUS_OK;
 }
 
@@ -219,14 +220,14 @@ uint8_t read_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t *data, uint8_t 
 	if(err == BUS_IN_USE) return BUS_IN_USE;
 	if(err == NACK) return NACK;
 	
-	err = read_TWI(twi, data);
+	err = read_TWI(twi, data, NACK);
 	
 	if(err == DATA_NOT_RECEIVED){
-		stop_TWI(twi);
+		//stop_TWI(twi);
 		return DATA_NOT_RECEIVED; 
 	}
 	
-	stop_TWI(twi);
+	//stop_TWI(twi);
 	
 	return TWI_STATUS_OK;
 }

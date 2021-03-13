@@ -77,7 +77,7 @@ uint8_t wait_till_received(TWI_t *twi, uint8_t rw);
 
 //issues an start condition and send an address
 //returns 1 if an acknowledge is received
-//returns 0 if a notacknowledge is received
+//returns 0 if a not acknowledge is received
 //returns 3 if the bus is not free
 uint8_t start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw);
 
@@ -90,7 +90,13 @@ void stop_TWI(TWI_t *twi);
 uint8_t send_TWI(TWI_t *twi, uint8_t data);
 
 //internal function used to read data
-uint8_t read_TWI(TWI_t *twi, uint8_t *data);
+//twi for what twi module
+//data pointer to store read data
+//go_on to continue or stop reading data
+//returns 7 when data is not received
+//returns 5 if data is received and no errors have occurred
+//go_on 1 continue 0 stop reading
+uint8_t read_TWI(TWI_t *twi, uint8_t *data, uint8_t go_on);
 
 //send 8bits to the address 
 uint8_t send_8bit_TWI(TWI_t *twi, uint8_t addr, uint8_t data);
