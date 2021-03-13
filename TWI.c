@@ -139,7 +139,8 @@ uint8_t repeated_start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){
 	if( !( (rw == READ) || (rw == WRITE) ) ) return INVALID_RW;
 	twi->MASTER.ADDR = (addr << 1) | rw;
 	
-	wait_till_send(twi, WRITE);
+	wait_till_send(twi, rw);
+	
 	
 	//when RXACK is 0 an ACK has been received
 	if(twi->MASTER.STATUS & TWI_MASTER_RXACK_bm) return NACK;
@@ -214,10 +215,6 @@ uint8_t write_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t data, uint8_t 
 	
 	stop_TWI(twi);
 	
-	//check bus state 
-	//if still master repeat a stop condition
-	//if different state do nothing
-	
 	return TWI_STATUS_OK;
 }
 
@@ -238,7 +235,7 @@ uint8_t read_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t *data, uint8_t 
 	
 	//err = repeated_start_TWI(twi, addr, READ);
 	twi->MASTER.ADDR = (addr << 1) | READ;
-	while( ! (twi->MASTER.STATUS & (TWI_MASTER_WIF_bm << READ)) );               // wait until sent
+	while( ! (twi->MASTER.STATUS & (TWI_MASTER_WIF_bm << READ)) );  // wait until sent
 	
 	//check for errors
 	if(err == BUS_IN_USE) return BUS_IN_USE;
@@ -246,12 +243,7 @@ uint8_t read_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t *data, uint8_t 
 	
 	err = read_TWI(twi, data, NACK);
 	
-	if(err == DATA_NOT_RECEIVED){
-		//stop_TWI(twi);
-		return DATA_NOT_RECEIVED; 
-	}
-	
-	//stop_TWI(twi);
+	if(err == DATA_NOT_RECEIVED) return DATA_NOT_RECEIVED; 
 	
 	return TWI_STATUS_OK;
 }
