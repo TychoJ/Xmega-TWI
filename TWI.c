@@ -1,9 +1,9 @@
 /*
- * TWI.c
- *
- * Created: 8-3-2021 15:08:48
- *  Author: tycho
+ * File TWI.c
+ * Author: Tycho Jöbsis
+ * Date: 13-02-2021
  */ 
+
 
 /*
 *	MIT License

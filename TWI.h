@@ -1,8 +1,7 @@
 /*
- * TWI.h
- *
- * Created: 8-3-2021 15:09:04
- *  Author: Tycho
+ * File TWI.h
+ * Author: Tycho Jöbsis
+ * Date: 13-02-2021
  */ 
 
 /*
@@ -28,6 +27,8 @@
 *	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 *	SOFTWARE.
 */
+
+
 #include <avr/io.h>
 
 #ifndef F_CPU
