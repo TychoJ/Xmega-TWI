@@ -11,11 +11,19 @@ Add the c and h file to your project and include the h file in the file you want
 ## Usage
 
 ```c
+// xx is the clock speed of the Xmega device
+#define F_CPU xx
+
 #include <TWI.h>
 
 int main(void){
-
-  enable_twi(&TWIx, BAUD_400K, TIMEOUT_DIS);
+  
+  /*
+   *  TWIx is the TWI module of the Xmega device you want to use.
+   *  BAUD_X00K is the speed of the I2C/TWI communication. You can use BAUD_100K and BAUD_400K.
+   *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, TIMEOUT_100US and TIMEOUT_200US.
+   */
+  enable_twi(&TWIx, BAUD_X00K, TIMEOUT_DIS);
   
   while(1){
     // your program
@@ -24,7 +32,7 @@ int main(void){
 ```
 
 ## Questions
-Make use of the forum if you have questions on how to use the library.  
+Make use of the forum if you have questions on how to use the library. Or if you have an idea to improve the useability of the library.  
 
 ## Contributing
 If you find an issue with the library please open an issue and explain what you think doesn't work.  
