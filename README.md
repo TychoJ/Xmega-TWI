@@ -21,7 +21,8 @@ int main(void){
   /*
    *  TWIx is the TWI module of the Xmega device you want to use.
    *  BAUD_X00K is the speed of the I2C/TWI communication. You can use BAUD_100K and BAUD_400K.
-   *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, TIMEOUT_100US and TIMEOUT_200US.
+   *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, 
+   *                                                                 TIMEOUT_100US and TIMEOUT_200US.
    */
   enable_twi(&TWIx, BAUD_X00K, TIMEOUT_DIS);
   
