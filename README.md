@@ -19,7 +19,6 @@ int main(void){
   
   while(1){
     // your program
-    asm("nope");
   }
 }
 ```
