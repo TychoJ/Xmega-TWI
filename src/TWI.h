@@ -1,6 +1,6 @@
 /*
  * File TWI.h
- * Author: Tycho Jöbsis
+ * Author: Tycho Jï¿½bsis
  * Date: 13-02-2021
  */ 
 
@@ -67,74 +67,84 @@
 #define DATA_NOT_RECEIVED 7
 #define TWI_STATUS_OK 5
 
-//inline function to calculate the baud value
+//! inline function to calculate the baud value
 #define TWI_BAUD(F_SYS, F_TWI)   ((F_SYS / (2 * F_TWI)) - 5)
 
-//set the baud rate of a TWI module
+//! set the baud rate of a TWI module
 void set_baud(TWI_t *twi, uint32_t TWI_speed);
 
-//enables a TWI module
-//TWI_speed is used to calculate the baud rate
-//timeout: if you are the only master you should use TIMEOUT_DIS
+/*!	\brief enable TWI module
+ *	\param twi			The TWI module that is used.
+ *	\param TWI_speed	TWI_speed is used to calculate the baud rate
+ * 	\param timout		Used for communication on an I2C/TWI bus with multiple masters. 
+ * 						If there are no other masters on the bus this should be set to TIMEOUT_DIS.
+ */
 void enable_TWI(TWI_t *twi, uint32_t TWI_speed, uint8_t timeout);
 
-//disables a TWI module
+//! disables a TWI module
 void disable_TWI(TWI_t *twi);
 
-//time in us after which it's assumed the TWI bus is free
-
-// disabled(normally used for i2c), 50us, 100us, 200us  
+/*! \brief this is used to set the timout for a TWI module.
+ *	\param twi		The TWI module that is used.
+ *	\param time_out	The length of timeout that is used.
+ */ 
 void set_timeout(TWI_t *twi, uint8_t time_out);
 
-//selects if ACK or NACK will be used
+//! selects if ACK or NACK will be used
 void set_acknowledge(TWI_t *twi, uint8_t ack);
 
-//returns in what state the bus is
+//! returns in what state the bus is
 uint8_t bus_state(TWI_t *twi);  
 
-//function used for setting the bus state
+//! function used for setting the bus state
 void set_bus_state_TWI(TWI_t *twi, uint8_t state);
 
 uint8_t wait_till_send(TWI_t *twi, uint8_t rw);
 
 uint8_t wait_till_received(TWI_t *twi, uint8_t rw);
 
-//issues an start condition and send an address
-//returns 1 if an acknowledge is received
-//returns 0 if a not acknowledge is received
-//returns 3 if the bus is not free
+/*! \brief start communication over TWI/I2C bus.
+ * 	\param twi	The TWI module that is used.
+ *	\param addr	The addres of the slave that will be communicated with.
+ *	\param rw	Read write bit.
+ *	\returns	Returns 1 if an acknowledge is received. Returns 0 if a not acknowledge is received. Returns 3 if the bus is not free.
+ */
 uint8_t start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw);
 
 uint8_t repeated_start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw);
 
-//issues a stop condition
+//! issues a stop condition
 void stop_TWI(TWI_t *twi);
 
-//internal function used for sending data
+//! internal function used for sending data
 uint8_t send_TWI(TWI_t *twi, uint8_t data);
-
-//internal function used to read data
-//twi for what twi module
-//data pointer to store read data
-//go_on to continue or stop reading data
-//returns 7 when data is not received
-//returns 5 if data is received and no errors have occurred
-//go_on 1 continue 0 stop reading
+/*! \brief Internal function used to read data.
+ *	\param twi for what twi module.
+ * 	\param data pointer to store read data.
+ * 	\param go_on continue or stop reading data.
+ * 	\return returns 7 when data is not received
+ * 	\return returns 5 if data is received and no errors have occurred
+ * 	\return go_on 1 continue 0 stop reading
+ */
 uint8_t read_TWI(TWI_t *twi, uint8_t *data, uint8_t go_on);
 
-//send 8bits to the address 
+//! send 8bits to the address 
 uint8_t send_8bit_TWI(TWI_t *twi, uint8_t addr, uint8_t data);
 
-//twi is the TWI port
-//addr is the address of the TWI device were you want to write to a register
-//data is the data that you want to write in the register
-//reg is the register to which you want to write the data
+/*! \brief Send 8 bits of data to a register of a slave device.
+ * 	\param twi	The TWI module that is used.
+ * 	\param addr	The addres of the slave device.
+ * 	\param data The data that needs to be placed in the 8 bits register.
+ *  \param reg 	The register the data is written to in the slave device.
+ */
 uint8_t write_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t data, uint8_t reg);
 
-//twi is the TWI port
-//addr is the address of the TWI device were you want to read a register
-//data is the variable where you want to store the data 
-//reg is the register you want to read data from
+/*!	\brief Read 8 bits of data from a register of a slave device.
+ *	\param twi	The TWI module that is used.
+ *	\param addr	The addres of the slave device.
+ * 	\param data The variable where you want to store the data
+ * 	\param reg	The register of the slave device the data wil be read from.
+ */
 uint8_t read_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t *data, uint8_t reg);
 
 
