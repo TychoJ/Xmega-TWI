@@ -11,9 +11,13 @@ Add the c and h file to your project and include the h file in the file you want
 ## Usage
 
 ```c
-// xx is the clock speed of the Xmega device
-#define F_CPU xx
+#define F_CPU xx          // xx is the clock speed of the Xmega device
+#define TWI_ADRESS xxxx   // The adress of the I2C device
 
+#define REG1 xx   // A register of the I2C device
+#define REG2 xx   // A register of the I2C device
+
+#include <avr/io.h>
 #include <TWI.h>
 
 int main(void){
@@ -21,13 +25,52 @@ int main(void){
   /*
    *  TWIx is the TWI module of the Xmega device you want to use.
    *  BAUD_X00K is the speed of the I2C/TWI communication. You can use BAUD_100K and BAUD_400K.
+   *  You can find out which one you need from the datasheet of the device you want to communicate with.
    *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, 
    *                                                                 TIMEOUT_100US and TIMEOUT_200US.
    */
   enable_twi(&TWIx, BAUD_X00K, TIMEOUT_DIS);
   
+  uint8_t write = x // x is the data that is going to be written to a register of the I2C device
+  uint8_t read;     // The data read from the I2C device register is going to be stored in this variable 
+  
   while(1){
-    // your program
+    write_8bit_register_TWI(&TWIx, TWI_ADRESS, write, REG1);
+    read_8bit_register_TWI(&TWIx, TWI_ADRESS, &read, REG2);
+  }
+}
+```
+
+## For HvA students
+Use `TWIE` see example below
+
+```c
+#define F_CPU xx          // xx is the clock speed of the Xmega device
+#define TWI_ADRESS xxxx   // The adress of the I2C device
+
+#define REG1 xx   // A register of the I2C device
+#define REG2 xx   // A register of the I2C device
+
+#include <avr/io.h>
+#include <TWI.h>
+
+int main(void){
+  
+  /*
+   *  TWIE is the TWI module of the Xmega board developed by Jan Derk Bakker you want to use.
+   *  BAUD_X00K is the speed of the I2C/TWI communication. You can use BAUD_100K and BAUD_400K.
+   *  You can find out which one you need from the datasheet of the device you want to communicate with.
+   *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, 
+   *                                                                 TIMEOUT_100US and TIMEOUT_200US.
+   */
+  enable_twi(&TWIE, BAUD_X00K, TIMEOUT_DIS);
+  
+  uint8_t write = x // x is the data that is going to be written to a register of the I2C device
+  uint8_t read;     // The data read from the I2C device register is going to be stored in this variable 
+  
+  while(1){
+    write_8bit_register_TWI(&TWIE, TWI_ADRESS, write, REG1);
+    read_8bit_register_TWI(&TWIE, TWI_ADRESS, &read, REG2);
   }
 }
 ```
