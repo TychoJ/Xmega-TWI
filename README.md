@@ -29,7 +29,7 @@ int main(void){
    *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, 
    *                                                                 TIMEOUT_100US and TIMEOUT_200US.
    */
-  enable_twi(&TWIx, BAUD_X00K, TIMEOUT_DIS);
+  enable_TWI(&TWIx, BAUD_X00K, TIMEOUT_DIS);
   
   uint8_t write = x // x is the data that is going to be written to a register of the I2C device
   uint8_t read;     // The data read from the I2C device register is going to be stored in this variable 
@@ -63,7 +63,7 @@ int main(void){
    *  For single master operations you can leave TIMEOUT_DIS as is. Other options are: TIMEOUT_50US, 
    *                                                                 TIMEOUT_100US and TIMEOUT_200US.
    */
-  enable_twi(&TWIE, BAUD_X00K, TIMEOUT_DIS);
+  enable_TWI(&TWIE, BAUD_X00K, TIMEOUT_DIS);
   
   uint8_t write = x // x is the data that is going to be written to a register of the I2C device
   uint8_t read;     // The data read from the I2C device register is going to be stored in this variable 
