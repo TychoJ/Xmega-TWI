@@ -49,32 +49,15 @@ void disable_TWI(TWI_t *twi){
 }
 
 void set_timeout(TWI_t *twi, uint8_t time_out){
-	switch(time_out){
-		case TIMEOUT_DIS:
-		twi->MASTER.CTRLB = TIMEOUT_DIS;
-		twi->MASTER.STATUS = TWI_MASTER_BUSSTATE_IDLE_gc;
-		break;
-		
-		case TIMEOUT_50US:
-		twi->MASTER.CTRLB = TIMEOUT_50US;
-		twi->MASTER.STATUS = TWI_MASTER_BUSSTATE_UNKNOWN_gc;
-		break;
-		
-		case TIMEOUT_100US:
-		twi->MASTER.CTRLB = TIMEOUT_100US;
-		twi->MASTER.STATUS = TWI_MASTER_BUSSTATE_UNKNOWN_gc;
-		break;
-		
-		case TIMEOUT_200US:
-		twi->MASTER.CTRLB = TIMEOUT_200US;
-		twi->MASTER.STATUS = TWI_MASTER_BUSSTATE_UNKNOWN_gc;
-		break;
-		
-		default:
-		twi->MASTER.CTRLB = TIMEOUT_DIS;
-		twi->MASTER.STATUS = TWI_MASTER_BUSSTATE_IDLE_gc;
-		break;
-	}
+    // Clear the timeout settings bits in the register 
+    twi->CTRLA &= ~(0x3 << TWI_TIMEOUT_0_bp);
+
+    time_out &= 0x03;
+	twi->CTRLA |= time_out;
+
+    // Set the bus state to IDLE
+	twi->MSTATUS &= ~(0<<1);
+    twi->MSTATUS &= ~(1<<0);
 }
 
 void set_acknowledge(TWI_t *twi, uint8_t ack){

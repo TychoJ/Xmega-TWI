@@ -1,6 +1,6 @@
 /*
  * File TWI.h
- * Author: Tycho Jöbsis
+ * Author: Tycho Jï¿½bsis
  * Date: 13-02-2021
  */ 
 
@@ -41,15 +41,15 @@
 #define BAUD_100K        100000UL
 #define BAUD_400K        400000UL
 
-#define TIMEOUT_DIS   TWI_MASTER_TIMEOUT_DISABLED_gc
-#define TIMEOUT_50US  TWI_MASTER_TIMEOUT_50US_gc
-#define TIMEOUT_100US TWI_MASTER_TIMEOUT_100US_gc
-#define TIMEOUT_200US TWI_MASTER_TIMEOUT_200US_gc
+#define TIMEOUT_DIS   0x00
+#define TIMEOUT_50US  0x01
+#define TIMEOUT_100US 0x02
+#define TIMEOUT_200US 0x03
 
-#define	UNKNOWN_BUS_STATE	0
-#define	BUS_NOT_IN_USE		1
-#define	OWNER_OF_BUS		2
-#define	BUS_IN_USE			3
+#define	UNKNOWN_BUS_STATE	0x00
+#define	BUS_NOT_IN_USE		0x01
+#define	OWNER_OF_BUS		0x02
+#define	BUS_IN_USE			0x03
 
 #define	UNKNOWN_BUS_STATE_GR	TWI_MASTER_BUSSTATE_UNKNOWN_gc
 #define	BUS_NOT_IN_USE_GR		TWI_MASTER_BUSSTATE_IDLE_gc
