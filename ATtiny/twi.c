@@ -45,7 +45,7 @@ void enable_TWI(TWI_t *twi, uint32_t TWI_speed, uint8_t timeout){
 }
 
 void disable_TWI(TWI_t *twi){
-	twi->MASTER.CTRLA = (0 << TWI_MASTER_ENABLE_bp);
+	twi->MCTRLA ^= (0 << TWI_ENABLE_bp);
 }
 
 void set_timeout(TWI_t *twi, uint8_t time_out){
