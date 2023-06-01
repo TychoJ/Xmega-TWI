@@ -1,6 +1,6 @@
 /*
  * File TWI.c
- * Author: Tycho Jöbsis
+ * Author: Tycho Jï¿½bsis
  * Date: 13-02-2021
  */ 
 
@@ -31,7 +31,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "TWI.h"
+#include "twi.h"
 
 void set_baud(TWI_t *twi, uint32_t TWI_speed){
 	twi->MASTER.BAUD = TWI_BAUD(F_CPU, TWI_speed);
