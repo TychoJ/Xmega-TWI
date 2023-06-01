@@ -40,7 +40,7 @@ void set_baud(TWI_t *twi, uint32_t TWI_speed){
 void enable_TWI(TWI_t *twi, uint32_t TWI_speed, uint8_t timeout){
 	set_baud(twi, TWI_speed);
 	set_acknowledge(twi, ACK);
-	twi->MASTER.CTRLA = TWI_MASTER_ENABLE_bm;
+    twi->MCTRLA |= 1 << TWI_ENABLE_bp;
 	set_timeout(twi, timeout);	
 }
 
