@@ -152,9 +152,11 @@ uint8_t send_TWI(TWI_t *twi, uint8_t data){
 
 uint8_t read_TWI(TWI_t *twi, uint8_t *data, uint8_t go_on){
 	if(wait_till_received(twi, READ) == DATA_NOT_RECEIVED) return DATA_NOT_RECEIVED;
-	(*data) = twi->MASTER.DATA;
-	 twi->MASTER.CTRLC = ((go_on == ACK) ? TWI_MASTER_CMD_RECVTRANS_gc :        // send ack (go on) or
-	 TWI_MASTER_ACKACT_bm|TWI_MASTER_CMD_STOP_gc); //     nack (and stop)
+	(*data) = twi->MDATA;
+
+    if (go_on == ACK) twi->MCTRLB |= 1 << 1;                // send ack (go on)
+    else twi->MCTRLB |= TWI_ACKACT_bm | TWI_MCMD_STOP_gc;   // nack (and stop)
+
 	return TWI_STATUS_OK;
 }
 
