@@ -136,8 +136,7 @@ uint8_t repeated_start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){
 }
 
 void stop_TWI(TWI_t *twi){
-	twi->MASTER.CTRLC = TWI_MASTER_CMD_STOP_gc;
-	
+	twi->MCTRLB |= TWI_MCMD_STOP_gc;
 }
 
 uint8_t send_TWI(TWI_t *twi, uint8_t data){
