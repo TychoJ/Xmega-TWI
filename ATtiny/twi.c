@@ -86,9 +86,9 @@ uint8_t wait_till_send(TWI_t *twi, uint8_t rw){
 	uint8_t send_suc = 0;
 	uint16_t time_passed = 0;
 	
-	while ( !send_suc){
+	while ( !send_suc ) {
 		
-		if(twi->MASTER.STATUS & (TWI_MASTER_WIF_bm << rw)) send_suc = 1;
+		if(twi->MSTATUS & (TWI_WIF_bm << rw)) send_suc = 1;
 		
 		if(time_passed > 1000) return DATA_NOT_SEND;
 		_delay_us(1);		
