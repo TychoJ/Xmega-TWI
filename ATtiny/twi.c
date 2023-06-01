@@ -69,13 +69,13 @@ void set_acknowledge(TWI_t *twi, uint8_t ack){
 }
 
 uint8_t bus_state(TWI_t *twi){
-	uint8_t ret = twi->MASTER.STATUS;
-	//ret = (000000 << 2);
-	if( (ret & TWI_MASTER_BUSSTATE_gm) == TWI_MASTER_BUSSTATE_UNKNOWN_gc ) return UNKNOWN_BUS_STATE;
-	if( (ret & TWI_MASTER_BUSSTATE_gm) != TWI_MASTER_BUSSTATE_IDLE_gc ) return BUS_NOT_IN_USE;
-	if( (ret & TWI_MASTER_BUSSTATE_gm) != TWI_MASTER_BUSSTATE_IDLE_gc ) return OWNER_OF_BUS;
-	if( (ret & TWI_MASTER_BUSSTATE_gm) != TWI_MASTER_BUSSTATE_IDLE_gc ) return BUS_IN_USE;
-	return 1;
+	uint8_t ret = twi->MSTATUS;
+
+    // Filter the bus state
+	ret &= ~0x03;
+
+    // Return the bus state
+	return ret;
 }
 
 void set_bus_state_TWI(TWI_t *twi, uint8_t state){
