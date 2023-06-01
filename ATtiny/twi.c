@@ -124,13 +124,13 @@ uint8_t repeated_start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){
 	if(bus_state(twi) != OWNER_OF_BUS) return bus_state(twi);
 	
 	if( !( (rw == READ) || (rw == WRITE) ) ) return INVALID_RW;
-	twi->MASTER.ADDR = (addr << 1) | rw;
+	twi->MADDR = (addr << 1) | rw;
 	
 	wait_till_send(twi, rw);
 	
 	
 	//when RXACK is 0 an ACK has been received
-	if(twi->MASTER.STATUS & TWI_MASTER_RXACK_bm) return NACK;
+	if(twi->MSTATUS & TWI_RXACK_bm) return NACK;
 	
 	return TWI_STATUS_OK;
 }
