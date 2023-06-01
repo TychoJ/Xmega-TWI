@@ -222,8 +222,9 @@ uint8_t read_8bit_register_TWI(TWI_t *twi, uint8_t addr, uint8_t *data, uint8_t 
 	if(err == NACK) return NACK;
 	
 	//err = repeated_start_TWI(twi, addr, READ);
-	twi->MASTER.ADDR = (addr << 1) | READ;
-	while( ! (twi->MASTER.STATUS & (TWI_MASTER_WIF_bm << READ)) );  // wait until sent
+	twi->MADDR = (addr << 1) | READ;
+    wait_till_send(twi, READ);
+	//while( ! (twi->MSTATUS & (TWI_WIF_bm << READ)) );  // wait until sent
 	
 	//check for errors
 	if(err == BUS_IN_USE) return BUS_IN_USE;
