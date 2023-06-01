@@ -140,12 +140,12 @@ void stop_TWI(TWI_t *twi){
 }
 
 uint8_t send_TWI(TWI_t *twi, uint8_t data){
-	twi->MASTER.DATA = data;
+	twi->MDATA = data;
 	
 	if( wait_till_send(twi, WRITE) == DATA_NOT_SEND) return DATA_NOT_SEND;
 	
 	//when RXACK is 0 an ACK has been received
-	if(twi->MASTER.STATUS & TWI_MASTER_RXACK_bm) return NACK;
+	if(twi->MSTATUS & TWI_RXACK_bm) return NACK;
 	
 	return ACK;
 }
