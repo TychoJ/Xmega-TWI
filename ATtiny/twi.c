@@ -108,11 +108,11 @@ uint8_t start_TWI(TWI_t *twi, uint8_t addr, uint8_t rw){
 	
 	if( !( (rw == READ) || (rw == WRITE) ) ) return INVALID_RW;
 	
-	twi->MASTER.ADDR = (addr << 1) | rw;	//send slave address
+	twi->MADDR = (addr << 1) | rw;	//send slave address
 	if(wait_till_send(twi, rw) == DATA_NOT_SEND) return DATA_NOT_SEND; // wait until sent
 	
 	//when RXACK is 0 an ACK has been received
-	if(twi->MASTER.STATUS & TWI_MASTER_RXACK_bm){
+	if(twi->MSTATUS & TWI_RXACK_bm){
 		stop_TWI(twi);
 		return NACK;
 		} 
