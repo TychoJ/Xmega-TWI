@@ -34,7 +34,7 @@
 #include "twi.h"
 
 void set_baud(TWI_t *twi, uint32_t TWI_speed){
-	twi->MASTER.BAUD = TWI_BAUD(F_CPU, TWI_speed);
+	twi->MBAUD = TWI_BAUD(F_CPU, TWI_speed);
 }
 
 void enable_TWI(TWI_t *twi, uint32_t TWI_speed, uint8_t timeout){
