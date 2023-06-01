@@ -61,7 +61,11 @@ void set_timeout(TWI_t *twi, uint8_t time_out){
 }
 
 void set_acknowledge(TWI_t *twi, uint8_t ack){
-	(ack == ACK) ? (twi->MASTER.CTRLC = (0 << 2)) : (twi->MASTER.CTRLC = (1 << 2));
+    ack = (~ack) & 0x01;    // Make it possible to use defines within this library
+
+    if (ack) twi->MCTRLB |= ack << TWI_ACKACT_bp; // Set AKACT in Master CTRLB to 1
+    else twi->MCTRLB &= (~ack) << TWI_ACKACT_bp;  // Set AKACT in Master CTRLB to 0
+	
 }
 
 uint8_t bus_state(TWI_t *twi){
