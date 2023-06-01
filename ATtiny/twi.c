@@ -79,7 +79,7 @@ uint8_t bus_state(TWI_t *twi){
 }
 
 void set_bus_state_TWI(TWI_t *twi, uint8_t state){
-	twi->MASTER.STATUS = state;
+    twi->MSTATUS |= (twi->MSTATUS & (~0x3)) | state; 
 }
 
 uint8_t wait_till_send(TWI_t *twi, uint8_t rw){
